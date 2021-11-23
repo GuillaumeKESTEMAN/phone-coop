@@ -5,6 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "types": "tsc --pretty --noEmit",
     "lint": "next lint"
   },
   "dependencies": {
