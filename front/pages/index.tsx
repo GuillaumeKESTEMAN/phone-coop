@@ -3,6 +3,8 @@ import Head from "next/head";
 import Paragraph from "../components/paragraph";
 import Title from "../components/title";
 import styles from "../styles/Home.module.css";
+import FormSection from "../components/formSection";
+import FormRow from "../components/formRow";
 
 const PAGE_TITLE = "Phone Coop: Recyclez votre téléphone";
 
@@ -24,6 +26,18 @@ const Home: NextPage = () => {
           responsable (ex FairPhone).
         </Paragraph>
         <Title level={2}>Je complète le formulaire</Title>
+
+          <form>
+              <FormSection title={'Veuillez indiquer vos informations personnelles : '}>
+                  <FormRow label={'Nom'} errorMessages={[]}><input/></FormRow>
+                  <FormRow label={'Prénom'} errorMessages={[]}><input/></FormRow>
+              </FormSection>
+              <FormSection title={'Renseignez ici les caractéristiques du téléphone : '}>
+                  <FormRow label={'Modèle du Téléphone'} errorMessages={[]}><input/></FormRow>
+                  <FormRow label={"Année d'achat"} errorMessages={[]}><input/></FormRow>
+              </FormSection>
+          </form>
+
       </main>
     </div>
   );
