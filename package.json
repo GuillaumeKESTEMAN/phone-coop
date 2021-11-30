@@ -1,0 +1,26 @@
+{
+  "name": "phone-coop",
+  "version": "1.0.0",
+  "description": "Recycle your phone and get a voucher",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky install",
+    "test": "npm run test:back && npm run test:front",
+    "test:front": "cd front && npm t",
+    "test:back": "cd back && npm t"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nfroidure/phone-coop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nfroidure/phone-coop/issues"
+  },
+  "homepage": "https://github.com/nfroidure/phone-coop#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "husky": "^7.0.4"
+  }
+}
