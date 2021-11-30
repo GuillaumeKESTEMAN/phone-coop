@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "test": "npm run test:back && npm run test:front",
     "test:front": "cd front && npm t",
-    "test:back": "cd back && npm t"
+    "test:back": "cd back && npm t",
+    "test": "npm run test:back && npm run test:front",
+    "install:front": "cd front && npm i",
+    "install:back": "cd back && npm i",
+    "postinstall": "npm run install:back && npm run install:front"
   },
   "repository": {
     "type": "git",
