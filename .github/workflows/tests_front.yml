@@ -29,3 +29,7 @@ jobs:
       working-directory: front
       env:
         CI: true
+    - run: npm t
+      working-directory: front
+      env:
+        CI: true
