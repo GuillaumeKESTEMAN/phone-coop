@@ -1,10 +1,20 @@
+import React, { ForwardedRef, InputHTMLAttributes } from "react";
 import styles from "../components/PhoneBrand.module.css";
 
-export default function PhoneBrand({ children }: { children: React.ReactNode }) {
-
-    return <select name="brand" id="brand-select" className={styles.select}>
-        <option value=""> --Please choose a brand--
-        </option>
+const PhoneBrand = React.forwardRef(
+  (
+    props: InputHTMLAttributes<HTMLSelectElement>,
+    ref?: ForwardedRef<HTMLSelectElement>
+  ) => {
+    return (
+      <select
+        ref={ref}
+        name="brand"
+        id="brand-select"
+        className={styles.select}
+        {...props}
+      >
+        <option value=""> --Please choose a brand--</option>
         <option value="Fairphone"> Fairphone </option>
         <option value="Wiko"> Wiko </option>
         <option value="Samsung"> Samsung </option>
@@ -13,6 +23,11 @@ export default function PhoneBrand({ children }: { children: React.ReactNode }) 
         <option value="Xiaomi"> Xiaomi </option>
         <option value="OnePlus"> OnePlus </option>
         <option value="Other"> Other </option>
-    </select>
+      </select>
+    );
+  }
+);
 
-}
+PhoneBrand.displayName = "PhoneBrand";
+
+export default PhoneBrand;

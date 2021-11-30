@@ -1,7 +1,20 @@
+import React, { ForwardedRef, InputHTMLAttributes } from "react";
 import styles from "./InputComponent.module.css";
 
-export default function InputComponent({ children, type, id }: { children: React.ReactNode; type:string; id:string }) {
+const InputComponent = React.forwardRef(
+  (
+    {
+      type,
+      ...props
+    }: Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
+      type: "text" | "tel" | "email";
+    },
+    ref?: ForwardedRef<HTMLInputElement>
+  ) => {
+    return <input ref={ref} className={styles.input} type={type} {...props} />;
+  }
+);
 
-    return <input type="" id="" className={styles.input} />
+InputComponent.displayName = "InputComponent";
 
-}
+export default InputComponent;

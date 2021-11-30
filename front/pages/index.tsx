@@ -1,14 +1,36 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 import Paragraph from "../components/paragraph";
 import Title from "../components/title";
 import styles from "../styles/Home.module.css";
 import FormSection from "../components/formSection";
 import FormRow from "../components/formRow";
+import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import type { NextPage } from "next";
+import InputComponent from "../components/InputComponent";
+import ValidationButton from "../components/validationButton";
+import PhoneBrand from "../components/PhoneBrand";
+
+type Inputs = {
+  firstName: string;
+  givenName: string;
+  email: string;
+  tel: string;
+  phoneBrand: string;
+  phoneYear: string;
+};
 
 const PAGE_TITLE = "Phone Coop: Recyclez votre téléphone";
 
 const Home: NextPage = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -27,17 +49,71 @@ const Home: NextPage = () => {
         </Paragraph>
         <Title level={2}>Je complète le formulaire</Title>
 
-          <form>
-              <FormSection title={'Veuillez indiquer vos informations personnelles : '}>
-                  <FormRow label={'Nom'} errorMessages={[]}><input/></FormRow>
-                  <FormRow label={'Prénom'} errorMessages={[]}><input/></FormRow>
-              </FormSection>
-              <FormSection title={'Renseignez ici les caractéristiques du téléphone : '}>
-                  <FormRow label={'Modèle du Téléphone'} errorMessages={[]}><input/></FormRow>
-                  <FormRow label={"Année d'achat"} errorMessages={[]}><input/></FormRow>
-              </FormSection>
-          </form>
-
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormSection
+            title={"Veuillez indiquer vos informations personnelles : "}
+          >
+            <FormRow
+              label={"Nom"}
+              errorMessages={errors.firstName?.message ? ["Nom requis"] : []}
+            >
+              <InputComponent
+                type="text"
+                autoComplete="first-name"
+                defaultValue=""
+                {...register("firstName", { required: false })}
+              />
+            </FormRow>
+            <FormRow
+              label={"Prénom"}
+              errorMessages={errors.givenName?.message ? ["Prénom requis"] : []}
+            >
+              <InputComponent
+                type="text"
+                autoComplete="given-name"
+                defaultValue=""
+                {...register("givenName", { required: false })}
+              />
+            </FormRow>
+            <FormRow
+              label={"Courriel"}
+              errorMessages={errors.email?.message ? ["Courriel requis"] : []}
+            >
+              <InputComponent
+                type="text"
+                autoComplete="email"
+                defaultValue=""
+                {...register("email", { required: false })}
+              />
+            </FormRow>
+            <FormRow
+              label={"Téléphone"}
+              errorMessages={errors.tel?.message ? ["Téléphone requis"] : []}
+            >
+              <InputComponent
+                type="text"
+                autoComplete="tel"
+                defaultValue=""
+                {...register("tel", { required: false })}
+              />
+            </FormRow>
+          </FormSection>
+          <FormSection
+            title={"Renseignez ici les caractéristiques du téléphone : "}
+          >
+            <FormRow label={"Modèle du Téléphone"} errorMessages={[]}>
+              <PhoneBrand {...register("phoneBrand", { required: false })} />
+            </FormRow>
+            <FormRow label={"Année d'achat"} errorMessages={[]}>
+              <InputComponent
+                type="text"
+                defaultValue=""
+                {...register("phoneYear", { required: false })}
+              />
+            </FormRow>
+          </FormSection>
+          <ValidationButton type="submit">Envoyer</ValidationButton>
+        </form>
       </main>
     </div>
   );

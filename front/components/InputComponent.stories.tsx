@@ -4,19 +4,13 @@ import BaseInputComponent from "./InputComponent";
 const story = {
   title: "Layout/InputComponent",
   component: BaseInputComponent,
-  argTypes: {
-    text: {
-      control: { type: "text" },
-      defaultValue: "Title",
-    },
-  },
+  argTypes: {},
 };
 
 export default story;
 
-export function InputComponent({
-  text,
-  ...props
-}: { text: string } & ComponentProps<typeof BaseInputComponent>) {
-  return <BaseInputComponent {...props}>{text}</BaseInputComponent>;
+export function InputComponent(
+  props: ComponentProps<typeof BaseInputComponent>
+) {
+  return <BaseInputComponent {...props} />;
 }
