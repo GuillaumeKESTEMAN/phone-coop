@@ -8,3 +8,4 @@ npm test
 
 cd ../front
 npm run types
+npm test
