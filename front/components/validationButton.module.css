@@ -1,0 +1,14 @@
+.button {
+  text-align: center;
+  text-decoration: none;
+  border-radius: var(--borderRadius);
+  background-color: var(--primary);
+  border: 2px var(--tertiary) solid;
+  color: var(--tertiary);
+}
+
+.button:hover {
+  background-color: var(--tertiary);
+  border-color: var(--primary);
+  color: var(--primary);
+}
