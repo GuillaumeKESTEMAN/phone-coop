@@ -14,6 +14,7 @@ Array [
   "get /phones/brands",
   "get /ping",
   "post /tokens",
+  "post /tokens/check",
 ]
 `;
 
@@ -25,7 +26,9 @@ Array [
   "options /phones/brands",
   "options /ping",
   "options /tokens",
+  "options /tokens/check",
   "post /tokens",
+  "post /tokens/check",
 ]
 `;
 
@@ -41,6 +44,7 @@ Array [
   "get /phones/brands",
   "get /ping",
   "post /tokens",
+  "post /tokens/check",
 ]
 `;
 
@@ -308,6 +312,92 @@ Object {
             },
           },
           "summary": "Send an email with a token to the customer",
+          "tags": Array [],
+        },
+      },
+      "/tokens/check": Object {
+        "options": Object {
+          "operationId": "optionsWithCORS",
+          "parameters": Array [],
+          "responses": Object {
+            "200": Object {
+              "description": "CORS sent.",
+            },
+          },
+          "summary": "Enable OPTIONS for CORS",
+          "tags": Array [
+            "CORS",
+          ],
+          "x-whook": Object {
+            "private": true,
+            "sourceOperationId": "postTokenCheck",
+            "suffix": "CORS",
+            "type": "http",
+          },
+        },
+        "post": Object {
+          "operationId": "postTokenCheck",
+          "parameters": Array [],
+          "requestBody": Object {
+            "content": Object {
+              "application/json": Object {
+                "schema": Object {
+                  "properties": Object {
+                    "token": Object {
+                      "type": "string",
+                    },
+                  },
+                  "required": Array [
+                    "token",
+                  ],
+                  "type": "object",
+                },
+              },
+            },
+            "description": "Token flashed by the QR code reader",
+            "required": true,
+          },
+          "responses": Object {
+            "200": Object {
+              "content": Object {
+                "application/json": Object {
+                  "schema": Object {
+                    "properties": Object {
+                      "email": Object {
+                        "type": "string",
+                      },
+                      "firstName": Object {
+                        "type": "string",
+                      },
+                      "givenName": Object {
+                        "type": "string",
+                      },
+                      "phoneBrand": Object {
+                        "type": "number",
+                      },
+                      "phoneYear": Object {
+                        "type": "number",
+                      },
+                      "tel": Object {
+                        "type": "string",
+                      },
+                    },
+                    "required": Array [
+                      "firstName",
+                      "givenName",
+                      "email",
+                      "tel",
+                      "phoneBrand",
+                      "phoneYear",
+                    ],
+                    "type": "object",
+                  },
+                },
+              },
+              "description": "Success",
+            },
+          },
+          "summary": "Check the validity of the token",
           "tags": Array [],
         },
       },

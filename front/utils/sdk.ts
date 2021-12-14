@@ -66,6 +66,16 @@ declare namespace APITypes {
       export type $204 = Components.Responses.postTokenResponse204<204>;
     }
   }
+  export namespace PostTokenCheck {
+    export type Body = Components.RequestBodies.PostTokenCheckRequestBody;
+    export type Output = Responses.$200;
+    export type Input = {
+      readonly body: Body;
+    };
+    export namespace Responses {
+      export type $200 = Components.Responses.postTokenCheckResponse200<200>;
+    }
+  }
   export namespace GetPing {
     export type Output = Responses.$200;
     export type Input = {};
@@ -78,6 +88,8 @@ declare namespace Components {
   export namespace RequestBodies {
     export type PostTokenRequestBody =
       Components.Schemas.RequestBodiespostTokenRequestBodyBody0;
+    export type PostTokenCheckRequestBody =
+      Components.Schemas.RequestBodiespostTokenCheckRequestBodyBody0;
   }
   export namespace Responses {
     type postTokenResponse204<S extends number> = {
@@ -101,6 +113,13 @@ declare namespace Components {
       };
       readonly body: Components.Schemas.ResponsesgetPhoneBrandsResponse200Body0;
     };
+    type postTokenCheckResponse200<S extends number> = {
+      readonly status: S;
+      readonly headers?: {
+        readonly [name: string]: unknown;
+      };
+      readonly body: Components.Schemas.ResponsespostTokenCheckResponse200Body0;
+    };
     type getPingResponse200<S extends number> = {
       readonly status: S;
       readonly headers?: {
@@ -118,6 +137,9 @@ declare namespace Components {
       phoneBrand: NonNullable<number>;
       phoneYear: NonNullable<number>;
     }>;
+    export type RequestBodiespostTokenCheckRequestBodyBody0 = NonNullable<{
+      token: NonNullable<string>;
+    }>;
     export type ResponsesgetOpenAPIResponse200Body0 = NonNullable<{}>;
     export type ResponsesgetPhoneBrandsResponse200Body0 = NonNullable<
       NonNullable<{
@@ -125,6 +147,14 @@ declare namespace Components {
         label: NonNullable<string>;
       }>[]
     >;
+    export type ResponsespostTokenCheckResponse200Body0 = NonNullable<{
+      firstName: NonNullable<string>;
+      givenName: NonNullable<string>;
+      email: NonNullable<string>;
+      tel: NonNullable<string>;
+      phoneBrand: NonNullable<number>;
+      phoneYear: NonNullable<number>;
+    }>;
     export type ResponsesgetPingResponse200Body0 = NonNullable<{
       pong?: "pong";
     }>;
@@ -149,6 +179,7 @@ const API = {
   getOpenAPI,
   getPhoneBrands,
   postToken,
+  postTokenCheck,
   getPing,
 };
 
@@ -156,6 +187,7 @@ export const APIURIBuilders = {
   getOpenAPI: buildGetOpenAPIURI,
   getPhoneBrands: buildGetPhoneBrandsURI,
   postToken: buildPostTokenURI,
+  postTokenCheck: buildPostTokenCheckURI,
   getPing: buildGetPingURI,
 };
 
@@ -163,6 +195,7 @@ export const APIMethods = {
   getOpenAPI: "get",
   getPhoneBrands: "get",
   postToken: "post",
+  postTokenCheck: "post",
   getPing: "get",
 } as const;
 
@@ -170,6 +203,7 @@ export const APIInputBuilders = {
   getOpenAPI: buildGetOpenAPIInput,
   getPhoneBrands: buildGetPhoneBrandsInput,
   postToken: buildPostTokenInput,
+  postTokenCheck: buildPostTokenCheckInput,
   getPing: buildGetPingInput,
 };
 
@@ -495,6 +529,120 @@ async function postToken(
     headers: response.headers,
     body: response.data,
   } as APITypes.PostToken.Output;
+}
+
+/**
+ * Build the "postTokenCheck" URI parameters$
+ * @return {Object}
+ * The object describing the built URI
+ * @param {Object} parameters
+ * The parameters provided to build the URI (destructured)
+ * @param {Object} options
+ * The options (destructured)
+ * @param {string} options.baseURL
+ * The base URL of the API
+ */
+function buildPostTokenCheckURI(
+  _: unknown,
+  {
+    baseURL: __baseURL = DEFAULT_BASE_URL,
+  }: URIBuilderOptions = URI_BUILDER_DEFAULTS
+): URIData {
+  const __pathParts = ["tokens", "check"];
+  const __qs = cleanQuery({});
+
+  return {
+    baseURL: __baseURL,
+    path: __pathParts.join("/"),
+    params: __qs,
+  };
+}
+
+/**
+ * Build all the "postTokenCheck" parameters
+ * @return {Object}
+ * The object describing the built parameters
+ * @param {Object} body
+ * The request body
+ * @param {Object} parameters
+ * The parameters provided to build them (destructured)
+ * @param {Object} options
+ * The options (destructured)
+ * @param {string} options.baseURL
+ * The base URL of the API
+ * @param {string} options.headers
+ * Any additional headers to append
+ */
+function buildPostTokenCheckInput(
+  { body }: APITypes.PostTokenCheck.Input,
+  {
+    baseURL: __baseURL = DEFAULT_BASE_URL,
+    headers: __headers = {},
+  }: InputBuilderOptions = INPUT_BUILDER_DEFAULTS
+): HTTPRequest<APITypes.PostTokenCheck.Input["body"]> {
+  const __method = APIMethods.postTokenCheck;
+  const __uriData = buildPostTokenCheckURI({}, { baseURL: __baseURL });
+
+  return {
+    method: __method,
+    ...__uriData,
+    headers: cleanHeaders(
+      Object.assign(__headers, {
+        "X-API-Version": "0.0.0",
+      })
+    ),
+    body: body,
+  };
+}
+
+/**
+ * Check the validity of the token
+ * @return {Object}
+ * The object describing the built parameters
+ * @param {Object} body
+ * The request body
+ * @param {Object} parameters
+ * The parameters provided to build them (destructured)
+ * @param {Object} options
+ * Options to override Axios request configuration
+ * @return {Object}
+ * The HTTP response
+ */
+async function postTokenCheck(
+  { body }: APITypes.PostTokenCheck.Input,
+  options: InputBuilderOptions & Partial<AxiosRequestConfig> = {}
+): Promise<Writeable<APITypes.PostTokenCheck.Output>> {
+  const httpRequest = buildPostTokenCheckInput(
+    {
+      body,
+    },
+    options
+  );
+  const callOptions = {
+    baseURL: httpRequest.baseURL,
+    method: httpRequest.method,
+    url: httpRequest.path,
+    headers: httpRequest.headers,
+    params: httpRequest.params,
+    data: httpRequest.body,
+  };
+
+  const response = await axios(
+    Object.assign(
+      {
+        ...callOptions,
+        paramsSerializer: querystring.stringify.bind(querystring),
+        validateStatus: (status: number) => 200 <= status && 300 > status,
+      },
+      options || {}
+    )
+  );
+
+  return {
+    status: response.status,
+    headers: response.headers,
+    body: response.data,
+  } as APITypes.PostTokenCheck.Output;
 }
 
 /**
